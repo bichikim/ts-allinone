@@ -11,17 +11,16 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env __INNER=true ts-node src",
-    "coverage": "nyc mocha",
+    "coverage": "cross-env __INNER=true ts-node src --task coverage",
     "dev": "ts-node-dev --respawn --transpileOnly --project tsconfig.dev.json build/dev.ts",
     "lint": "concurrently \"npm:lint-eslint\" \"npm:lint-tslint\"",
     "lint-eslint": "eslint --ext .js --ext .ts src",
     "lint-tslint": "tslint src/**/*.ts",
     "reformat": "prettier-eslint --write \"src/**/*.ts\"",
     "test": "cross-env __INNER=true ts-node src --task test",
-    "test-watch": "mocha --watch-extensions ts --watch"
+    "test-watch": "cross-env __INNER=true ts-node src --task test-watch"
   },
   "dependencies": {
-    "chai": "^4.2.0",
     "commander": "^2.19.0",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
@@ -32,6 +31,7 @@
     "eslint-plugin-vue": "^5.0.0-beta.5",
     "gulp": "^4.0.0",
     "gulp-mocha": "^6.0.0",
+    "gulp-shell": "^0.6.5",
     "gulp-typescript": "^5.0.0-alpha.3",
     "lodash": "^4.17.11",
     "mocha": "^5.2.0",
@@ -42,6 +42,7 @@
     "reflect-metadata": "^0.1.12",
     "through2": "^3.0.0",
     "ts-node": "^7.0.1",
+    "tsconfig": "^7.0.0",
     "tslint": "^5.11.0",
     "typescript": "^3.1.6",
     "typescript-eslint-parser": "^21.0.1"
@@ -57,6 +58,7 @@
     "@types/module-alias": "^2.0.0",
     "@types/mongoose": "^5.3.1",
     "@types/node": "^10.12.8",
-    "@types/sinon": "^5.0.5"
+    "@types/sinon": "^5.0.5",
+    "chai": "^4.2.0"
   }
 }

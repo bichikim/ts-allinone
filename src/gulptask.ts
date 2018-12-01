@@ -1,28 +1,36 @@
 import del from 'del'
 import {dest, series, src} from 'gulp'
-import mocha from 'gulp-mocha'
+import shell from 'gulp-shell'
 import ts from 'gulp-typescript'
+import {forEach} from 'lodash'
 import path from 'path'
 import {ITsAIOOptions} from './'
 import tsPathResolve from './ts-path-resolve'
 
+
+interface ITestOptions {
+  ync?: boolean,
+  watch?: boolean,
+}
+
 const defaultVal: ITsAIOOptions = {
   project: 'tsconfig.json',
   buildDir: 'dist',
-  srcs: ['src/**/*.ts', 'src/**/*.js'],
+  include: ['src/**/*.ts', 'src/**/*.js'],
+  requires: [],
 }
 
-const clean = (options: ITsAIOOptions) => (done) => {
+export const clean = () => (done) => {
   return del(['dist/**'], done)
 }
 
-const compile = (options: ITsAIOOptions) => (done) => {
-  const {project, srcs} = options
+export const compile = (options: Partial<ITsAIOOptions>) => (done) => {
+  const {project = defaultVal.project, include = defaultVal.include} = options
   const tsProject: any = ts.createProject(project, {
     declaration: true,
     module: 'UMD',
   })
-  src(srcs)
+  src(include)
   .pipe(tsPathResolve(tsProject.config))
   .pipe(tsProject())
   .pipe(dest('dist'))
@@ -32,45 +40,84 @@ const compile = (options: ITsAIOOptions) => (done) => {
 }
 
 export const build = (options: Partial<ITsAIOOptions> = {}) => {
-  const {project, buildDir, srcs} = options
-  const _options: ITsAIOOptions = {
-    project: project || defaultVal.project,
-    buildDir: buildDir || defaultVal.buildDir,
-    srcs: srcs || defaultVal.srcs,
-  }
-
   return series(
-    clean(_options),
-    compile(_options),
+    clean(),
+    compile(options),
   )
 }
 
-export const test = (options: Partial<ITsAIOOptions> = {}) => {
-  const {project, buildDir, srcs} = options
-  const _options: ITsAIOOptions = {
-    project: project || defaultVal.project,
-    buildDir: buildDir || defaultVal.buildDir,
-    srcs: srcs || ['test/**/*.spec.ts'],
+export const coverage = (options: Partial<ITsAIOOptions> = {}) => {
+  return test(options, {ync: true})
+}
+
+export const testWatch = (options: Partial<ITsAIOOptions> = {}) => {
+  return test(options, {watch: true})
+}
+
+export const test = (options: Partial<ITsAIOOptions> = {}, testOptions: ITestOptions = {}) => {
+  const {ync = false, watch = false} = testOptions
+  const forOptions = (deco: string, list: string[] | string): string[] => {
+    const create = (value: string): string => (`--${deco} "${value}"`)
+    if(typeof list === 'string'){
+      return [create(list)]
+    }
+    return list.map((value: string) => {
+      return create(value)
+    })
   }
 
-  return (done) => {
-    const projectRoot = process.cwd()
-    const sourcePath = __dirname
-    const tsNodeRegister = path.join(projectRoot, 'node_modules', 'ts-node/register')
-    let isInner: any = process.env.__INNER
-    isInner = isInner === 'true' || isInner === true
-    const mochaRegister = path.join(sourcePath, isInner ? 'mocha.ts' : 'mocha.js')
+  const {include = ['test/**/*.spec.ts']} = options
 
-    const tsProject: any = ts.createProject(
-      _options.project,
-      {
-        module: 'commonjs',
-        target: 'es2015',
-      })
-    src(_options.srcs)
-      .pipe(tsPathResolve(tsProject.config))
-      .pipe(mocha({
-        require: [tsNodeRegister, mochaRegister],
-      }))
+  // project path
+  const projectRoot = process.cwd()
+
+  // this file path
+  const sourcePath = __dirname
+  // ts-node register path
+  const tsNodeRegister = path.join(projectRoot, 'node_modules', 'ts-node/register')
+
+  // __INNER true meaning is internal running by ts-node
+  let isInner: any = process.env.__INNER
+  isInner = isInner === 'true' || isInner === true
+
+  // inner running use .ts
+  // mocha register file path
+  const mochaRegister = path.join(sourcePath, isInner ? 'mocha.ts' : 'mocha.js')
+
+  const command: string[] = []
+  if(ync){
+    const yncOptions = {
+      require: [tsNodeRegister, mochaRegister],
+      extension: ['.ts', '.tsx'],
+      include: ['src/**/*'],
+      exclude: ['**/*.d.ts'],
+      reporter: ['text-summary', 'lcov'],
+      all: 'true',
+    }
+    const nycOptionsStringList: string[] = []
+    forEach(yncOptions, (value, key) => {
+      nycOptionsStringList.push(forOptions(key, value).join(' '))
+    })
+    command.push(
+      'nyc',
+      ...nycOptionsStringList,
+    )
   }
+
+  const {requires = [tsNodeRegister, mochaRegister]} = options
+  command.push(
+    'mocha',
+    forOptions('require', requires).join(' '),
+  )
+  if(watch){
+    command.push(
+      '--watch',
+      '--watch-extensions ts',
+    )
+  }
+  command.push(
+    include.join(' '),
+  )
+
+  return shell.task(command.join(' '))
 }

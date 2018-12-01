@@ -1,0 +1,24 @@
+// export const test = (options: Partial<ITsAIOOptions> = {}) => {
+//   const {project, buildDir, srcs} = options
+//   const _options: ITsAIOOptions = {
+//     project: project || defaultVal.project,
+//     buildDir: buildDir || defaultVal.buildDir,
+//     srcs: srcs || ['test/**/*.spec.ts'],
+//   }
+//
+//   return async () => {
+//     const tsconfigJson: any = await load(process.cwd())
+//     const projectRoot = process.cwd()
+//     const sourcePath = __dirname
+//     const tsNodeRegister = path.join(projectRoot, 'node_modules', 'ts-node/register')
+//     let isInner: any = process.env.__INNER
+//     isInner = isInner === 'true' || isInner === true
+//     const mochaRegister = path.join(sourcePath, isInner ? 'mocha.ts' : 'mocha.js')
+//
+//     src(_options.srcs)
+//       .pipe(tsPathResolve(tsconfigJson.config))
+//       .pipe(mocha({
+//         require: [tsNodeRegister, mochaRegister],
+//       }))
+//   }
+// }

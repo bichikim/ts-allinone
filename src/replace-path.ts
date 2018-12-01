@@ -4,6 +4,9 @@ import {forEach} from 'lodash'
 import path from 'path'
 
 export default function replacePath(code, filePath, importOptions) {
+  if(!importOptions.paths){
+    console.warn('you don\'t have paths')
+  }
   const tscPaths: string[] = Object.keys(importOptions.paths)
   const lines = code.split('\n')
 
