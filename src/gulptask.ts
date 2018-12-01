@@ -7,7 +7,6 @@ import path from 'path'
 import {ITsAIOOptions} from './'
 import tsPathResolve from './ts-path-resolve'
 
-
 interface ITestOptions {
   ync?: boolean,
   watch?: boolean,
