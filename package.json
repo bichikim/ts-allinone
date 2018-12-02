@@ -16,7 +16,7 @@
     "lint": "concurrently \"npm:lint-eslint\" \"npm:lint-tslint\"",
     "lint-eslint": "eslint --ext .js --ext .ts src",
     "lint-tslint": "tslint src/**/*.ts",
-    "reformat": "prettier-eslint --write \"src/**/*.ts\"",
+    "reformat": "cross-env __INNER=true ts-node src --task reformat",
     "test": "cross-env __INNER=true ts-node src --task test",
     "test-watch": "cross-env __INNER=true ts-node src --task test-watch"
   },
@@ -29,6 +29,7 @@
     "eslint-plugin-html": "^5.0.0",
     "eslint-plugin-typescript": "^0.14.0",
     "eslint-plugin-vue": "^5.0.0-beta.5",
+    "fs-extra": "^7.0.1",
     "gulp": "^4.0.0",
     "gulp-mocha": "^6.0.0",
     "gulp-shell": "^0.6.5",

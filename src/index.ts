@@ -1,13 +1,29 @@
 import commander from 'commander'
 import {pick} from 'lodash'
 import {camelCase} from 'lodash'
-import * as tasks from './gulptask'
+import path from 'path'
+import * as tasks from './tasks'
 
 export interface ITsAIOOptions {
-  project: string
-  buildDir: string
-  requires: string[],
-  include: string[],
+  project?: string
+  buildDir?: string
+  requires?: string[]
+  include?: string[]
+  inner?: boolean
+  moduleRoot: string
+  projectRoot: string
+  sourcePath: string
+}
+
+export const defaultVal: Required<ITsAIOOptions> = {
+  project: 'tsconfig.json',
+  buildDir: 'dist',
+  include: ['src/**/*.ts', 'src/**/*.js'],
+  inner: false,
+  requires: [],
+  moduleRoot: path.resolve(__dirname, '../'),
+  projectRoot: process.cwd(),
+  sourcePath: __dirname,
 }
 
 commander
@@ -20,9 +36,16 @@ commander
 
 const options: Partial<ITsAIOOptions> = pick(commander, ['project', 'buildDir'])
 
+options.inner = process.env.__INNER === 'true'
+options.projectRoot = defaultVal.projectRoot
+options.moduleRoot = defaultVal.moduleRoot
+options.sourcePath = defaultVal.sourcePath
+console.log('options.moduleRoot: ', options.moduleRoot)
+console.log('options.projectRoot: ', options.projectRoot)
+
 const taskName = commander.task
 
-if(process.env.__INNER === 'true'){
+if(options.inner){
   console.log('> This is running for developing ts-all-in-one project mode')
 }
 
