@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import commander from 'commander'
 import {pick} from 'lodash'
 import {camelCase} from 'lodash'
@@ -36,12 +37,10 @@ commander
 
 const options: Partial<ITsAIOOptions> = pick(commander, ['project', 'buildDir'])
 
-options.inner = process.env.__INNER === 'true'
 options.projectRoot = defaultVal.projectRoot
 options.moduleRoot = defaultVal.moduleRoot
 options.sourcePath = defaultVal.sourcePath
-console.log('options.moduleRoot: ', options.moduleRoot)
-console.log('options.projectRoot: ', options.projectRoot)
+options.inner = options.moduleRoot === options.projectRoot
 
 const taskName = commander.task
 

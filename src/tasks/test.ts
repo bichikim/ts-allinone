@@ -1,6 +1,6 @@
 import shell from 'gulp-shell'
 import path from 'path'
-import {defaultVal, ITsAIOOptions} from '../'
+import {ITsAIOOptions} from '../'
 
 interface ITestOptions {
   ync?: boolean
@@ -8,16 +8,8 @@ interface ITestOptions {
 }
 
 export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => {
-  const {
-    ync = false,
-    watch = false,
-  } = testOptions
-  const {
-    include = ['test/**/*.spec.ts'],
-    inner = defaultVal.inner,
-    projectRoot,
-    sourcePath,
-  } = options
+  const {ync = false, watch = false} = testOptions
+  const {include = ['test/**/*.spec.ts'], moduleRoot} = options
   const forOptions = (deco: string, list: string[] | string): string[] => {
     const create = (value: string): string => `--${deco} "${value}"`
     if(typeof list === 'string'){
@@ -33,14 +25,7 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
     command.push('nyc')
   }
 
-  // ts-node register path
-  const tsNodeRegister = path.join(projectRoot, 'node_modules', 'ts-node/register')
-
-  // inner running use .ts
-  // mocha register file path
-  const mochaRegister = path.join(sourcePath, inner ? 'mocha.ts' : 'mocha.js')
-
-  const {requires = [tsNodeRegister, mochaRegister]} = options
+  const {requires = [path.join(moduleRoot, 'register/mocha.js')]} = options
   command.push('mocha', forOptions('require', requires).join(' '))
   if(watch){
     command.push('--watch', '--watch-extensions ts')

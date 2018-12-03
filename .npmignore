@@ -1,4 +1,3 @@
-.keep/
 .nyc_output/
 .rpt2_cache/
 node_modules/
@@ -12,15 +11,7 @@ coverage/
 .nycrc
 .eslintrc.js
 .gitlab-ci.yml
-.prettierrc
-.babelrc
 .gitattributes
 .travis.yml
-package-scripts.js
-src/tsconfig.buld.json
-tsconfig.dev.json
-tsconfig.test.json
-tsconfig.json
-tslint.json
 yarn.lock
 yarn-error.log

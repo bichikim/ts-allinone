@@ -1,2 +1,2 @@
-# mongoose-sinon-mock
-> mongoose mocking
+# Typescript all in one package
+> build & test

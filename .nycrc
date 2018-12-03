@@ -4,8 +4,7 @@
     ".tsx"
   ],
   "include": [
-    "src/**/*",
-    "lib/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "**/*.d.ts"
