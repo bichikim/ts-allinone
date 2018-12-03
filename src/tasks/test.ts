@@ -1,6 +1,7 @@
 import shell from 'gulp-shell'
 import path from 'path'
 import {ITsAIOOptions} from '../'
+const DEFAULT_INCLUDE = ['test/**/*.spec.ts']
 
 interface ITestOptions {
   ync?: boolean
@@ -9,7 +10,7 @@ interface ITestOptions {
 
 export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => {
   const {ync = false, watch = false} = testOptions
-  const {include = ['test/**/*.spec.ts'], moduleRoot} = options
+  const {include = DEFAULT_INCLUDE, moduleRoot} = options
   const forOptions = (deco: string, list: string[] | string): string[] => {
     const create = (value: string): string => `--${deco} "${value}"`
     if(typeof list === 'string'){
@@ -19,8 +20,12 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
       return create(value)
     })
   }
-
   const command: string[] = []
+
+  if(!moduleRoot){
+    throw new Error('test: no moduleRoot')
+  }
+
   if(ync){
     command.push('nyc')
   }

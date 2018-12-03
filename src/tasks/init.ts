@@ -5,6 +5,9 @@ const FILE_LIST = ['.eslintrc.js', '.nycrc', '.prettierrc', 'tsconfig.json', 'ts
 
 export const init = (options: ITsAIOOptions) => {
   const {moduleRoot, projectRoot} = options
+  if(!moduleRoot || !projectRoot){
+    throw new Error('init: no moduleRoot || projectRoot')
+  }
   // .nycrc .eslintrc.js .prettierrc tsconfig.json tslint.json 파일을 프로젝트 폴더에 복제한다.
   return async () => {
     const copyTask: Array<Promise<void>> = []
@@ -12,6 +15,7 @@ export const init = (options: ITsAIOOptions) => {
       const projectFilePath = path.join(projectRoot, value)
       const exist = existsSync(projectFilePath)
       if(!exist){
+        // node type issue
         // @ts-ignore
         copyTask.push(copyFile(path.join(moduleRoot, value), projectFilePath))
       }

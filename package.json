@@ -1,6 +1,6 @@
 {
   "name": "ts-aio",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "ts test & build & dev all in one package",
   "main": "dist/index.js",
   "bin": {
@@ -15,12 +15,12 @@
     "lint": "concurrently \"npm:lint-eslint\" \"npm:lint-tslint\"",
     "lint-eslint": "eslint --ext .js --ext .ts src",
     "lint-tslint": "tslint src/**/*.ts",
-    "reformat": "ts-node src --task reformat",
-    "test": "ts-node src --task test",
-    "test-watch": "ts-node src --task test-watch",
+    "reformat": "ts-node src reformat",
+    "test": "ts-node src test",
+    "test-watch": "ts-node src test-watch",
     "preversion": "npm run reformat && npm run test && npm run build",
     "postversion": "npm publish",
-    "coverage": "ts-node src --task coverage"
+    "coverage": "ts-node src coverage"
   },
   "engines": {
     "node": ">=10"
