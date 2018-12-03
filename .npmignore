@@ -9,7 +9,6 @@ coverage/
 .gitignore
 .idea/
 .nycrc
-.eslintrc.js
 .gitlab-ci.yml
 .gitattributes
 .travis.yml
