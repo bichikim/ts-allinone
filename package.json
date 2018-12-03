@@ -1,6 +1,6 @@
 {
   "name": "ts-aio",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "ts test & build & dev all in one package",
   "main": "dist/index.js",
   "bin": {
