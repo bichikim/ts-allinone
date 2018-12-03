@@ -1,24 +1,26 @@
 {
   "name": "ts-aio",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "ts test & build & dev all in one package",
   "main": "dist/index.js",
-  "repository": "https://github.com/bichikim/ts-allinone.git",
-  "author": "BichiKim <bichi@live.co.kr>",
   "bin": {
     "ts-aio": "dist/index.js"
   },
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/bichikim/ts-allinone.git",
+  "author": "BichiKim <bichi@live.co.kr>",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env __INNER=true ts-node src",
-    "coverage": "cross-env __INNER=true ts-node src --task coverage",
-    "dev": "ts-node-dev --respawn --transpileOnly --project tsconfig.dev.json build/dev.ts",
+    "build": "ts-node src",
     "lint": "concurrently \"npm:lint-eslint\" \"npm:lint-tslint\"",
     "lint-eslint": "eslint --ext .js --ext .ts src",
     "lint-tslint": "tslint src/**/*.ts",
-    "reformat": "cross-env __INNER=true ts-node src --task reformat",
-    "test": "cross-env __INNER=true ts-node src --task test",
-    "test-watch": "cross-env __INNER=true ts-node src --task test-watch"
+    "reformat": "ts-node src --task reformat",
+    "test": "ts-node src --task test",
+    "test-watch": "ts-node src --task test-watch",
+    "preversion": "npm run reformat && npm run test && npm run build",
+    "postversion": "npm publish",
+    "coverage": "ts-node src --task coverage"
   },
   "dependencies": {
     "commander": "^2.19.0",
@@ -57,9 +59,9 @@
     "@types/lodash": "^4.14.118",
     "@types/mocha": "^5.2.5",
     "@types/module-alias": "^2.0.0",
-    "@types/mongoose": "^5.3.1",
-    "@types/node": "^10.12.8",
-    "@types/sinon": "^5.0.5",
+    "@types/mongoose": "^5.3.2",
+    "@types/node": "^10.12.11",
+    "@types/sinon": "^5.0.7",
     "chai": "^4.2.0"
   }
 }
