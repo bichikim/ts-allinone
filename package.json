@@ -1,6 +1,6 @@
 {
   "name": "ts-aio",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "ts test & build & dev all in one package",
   "main": "dist/index.js",
   "bin": {
@@ -21,6 +21,9 @@
     "preversion": "npm run reformat && npm run test && npm run build",
     "postversion": "npm publish",
     "coverage": "ts-node src --task coverage"
+  },
+  "engines": {
+    "node": ">=10"
   },
   "dependencies": {
     "commander": "^2.19.0",
