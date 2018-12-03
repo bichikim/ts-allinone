@@ -8,7 +8,6 @@ coverage/
 .eslintignore
 .gitignore
 .idea/
-.nycrc
 .gitlab-ci.yml
 .gitattributes
 .travis.yml
