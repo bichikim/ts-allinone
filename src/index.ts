@@ -24,7 +24,7 @@ commander
   .action((cmd = DEFAULT_COMMAND) => {
     command = cmd
   })
-  .option('-c, --ts-config [dir]', 'set a project directory', 'tsConfig.json')
+  .option('-c, --ts-config [dir]', 'set a project directory', 'tsconfig.json')
   .option('-d, --build-dir [dir]', 'set a directory for built result files', 'dist')
   .option('-i, --include [a, b]', 'source directories')
   .option('-r, --requires [a, b]', 'require files')
