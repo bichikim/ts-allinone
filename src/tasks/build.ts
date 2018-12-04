@@ -6,7 +6,7 @@ import {ITsAIOOptions} from '../'
 import tsPathResolve from '../ts-path-resolve'
 const DEFAULT_INCLUDE = ['src/**/*.ts']
 const DEFAULT_BUILD_DIR = 'dist'
-const DEFAULT_TS_CONFIG = 'tsConfig.json'
+const DEFAULT_TS_CONFIG = 'tsconfig.json'
 
 export const clean = (options: ITsAIOOptions) => () => {
   const {buildDir = DEFAULT_BUILD_DIR} = options
