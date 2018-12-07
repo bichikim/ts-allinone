@@ -4,12 +4,12 @@ import {ITsAIOOptions} from '../'
 const DEFAULT_INCLUDE = ['test/**/*.spec.ts']
 
 interface ITestOptions {
-  ync?: boolean
+  nyc?: boolean
   watch?: boolean
 }
 
 export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => {
-  const {ync = false, watch = false} = testOptions
+  const {nyc = false, watch = false} = testOptions
   const {include = DEFAULT_INCLUDE, moduleRoot} = options
   const forOptions = (deco: string, list: string[] | string): string[] => {
     const create = (value: string): string => `--${deco} "${value}"`
@@ -26,22 +26,23 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
     throw new Error('test: no moduleRoot')
   }
 
-  if(ync){
+  const {requires = [path.join(moduleRoot, 'register/mocha.js')]} = options
+
+  if(nyc){
     command.push('nyc')
+    command.push(...forOptions('require', requires))
   }
 
-  const {requires = [path.join(moduleRoot, 'register/mocha.js')]} = options
-  command.push('mocha', forOptions('require', requires).join(' '))
+  command.push('mocha', ...forOptions('require', requires))
   if(watch){
     command.push('--watch', '--watch-extensions ts')
   }
-  command.push(include.join(' '))
-
+  command.push(...include)
   return shell.task(command.join(' '))
 }
 
 export const coverage = (options: ITsAIOOptions) => {
-  return test(options, {ync: true})
+  return test(options, {nyc: true})
 }
 
 export const testWatch = (options: ITsAIOOptions) => {
