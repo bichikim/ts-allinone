@@ -12,6 +12,5 @@
   "reporter": [
     "text-summary" , "lcov"
   ],
-  "sourceMap": false,
   "all": true
 }

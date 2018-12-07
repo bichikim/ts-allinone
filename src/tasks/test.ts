@@ -1,7 +1,11 @@
+import gulp from 'gulp'
 import shell from 'gulp-shell'
-import path from 'path'
+import ts from 'gulp-typescript'
+import path, {join} from 'path'
 import {ITsAIOOptions} from '../'
+import tsPathResolve from '../ts-path-resolve'
 const DEFAULT_INCLUDE = ['test/**/*.spec.ts']
+const DEFAULT_TS_CONFIG = 'tsconfig.json'
 
 interface ITestOptions {
   nyc?: boolean
@@ -26,11 +30,10 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
     throw new Error('test: no moduleRoot')
   }
 
-  const {requires = [path.join(moduleRoot, 'register/mocha.js')]} = options
+  const {requires = ['ts-node/register', 'tsconfig-paths/register']} = options
 
   if(nyc){
     command.push('nyc')
-    command.push(...forOptions('require', requires))
   }
 
   command.push('mocha', ...forOptions('require', requires))

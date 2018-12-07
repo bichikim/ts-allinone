@@ -1,4 +1,4 @@
-const moduleAlias = require('module-alias')
+
 const {resolve, join} = require('path')
 const {existsSync} = require('fs')
 const {register} = require('ts-node')
@@ -13,7 +13,4 @@ if(!existsSync(configFileName)){
   configFileName = resolve(__dirname, '..' ,TEST_TS_CONFIG_FILE_NAME)
 }
 
-moduleAlias.addAlias('~', resolve(process.cwd(), 'src'))
-moduleAlias.addAlias('@', resolve(process.cwd(), 'src'))
-moduleAlias(process.cwd())
 register({project: configFileName})
