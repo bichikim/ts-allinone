@@ -7,20 +7,20 @@
 - lint by eslint & tslint
 
 ```bash
-Usage: index [options] [command]
+Usage: src [options] [command]
+
+Options:
+  -c, --ts-config [dir]       set a project directory (default: "tsconfig.json")
+  -d, --build-dir [dir]       set a directory for built result files (default: "dist")
+  -i, --include [regex]       source directories (collect able) (default: [])
+  -r, --requires [file path]  require files (collect able) (default: [])
+  -h, --help                  output usage information
 
 Commands:
   build
   test
   test-watch
-  reformate
   coverage
-
-Options:
-  -c, --ts-config [dir]  set a project directory (default: "tsConfig.json")
-  -d, --build-dir [dir]  set a directory for built result files (default: "dist") (only: build)
-  -i, --include [a, b]   source directories (default: "src/**/*.ts") (test default: "test/**/*.spec.ts")
-  -r, --requires [a, b]  require files
-  -h, --help             output usage information
+  reformat
 
 ```
