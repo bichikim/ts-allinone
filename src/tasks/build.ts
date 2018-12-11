@@ -20,6 +20,9 @@ export const compile = (options: ITsAIOOptions) => (done) => {
     buildDir = DEFAULT_BUILD_DIR,
     projectRoot,
   } = options
+  if(include.length < 1){
+    include.push(...DEFAULT_INCLUDE)
+  }
   if(!projectRoot){
     throw new Error('compile: no projectRoot')
   }

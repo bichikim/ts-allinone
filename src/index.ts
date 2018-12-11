@@ -17,6 +17,11 @@ export interface ITsAIOOptions {
   sourcePath?: string
 }
 
+function collect(value, list: any[]) {
+  list.push(value)
+  return list
+}
+
 let command: string | undefined = DEFAULT_COMMAND
 
 commander
@@ -26,8 +31,8 @@ commander
   })
   .option('-c, --ts-config [dir]', 'set a project directory', 'tsconfig.json')
   .option('-d, --build-dir [dir]', 'set a directory for built result files', 'dist')
-  .option('-i, --include [a, b]', 'source directories')
-  .option('-r, --requires [a, b]', 'require files')
+  .option('-i, --include [regex]', 'source directories (collect able)', collect, [])
+  .option('-r, --requires [file path]', 'require files (collect able)', collect, [])
   .parse(process.argv)
 
 const options: Partial<ITsAIOOptions> = pick(commander, [
