@@ -52,12 +52,12 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
     requires.push(...REQUIRES)
   }
 
-  if(test.length < 1) {
+  if(test.length < 1){
     test.push(...DEFAULT_TEST)
   }
 
   let nycOptions
-  if(!inner && existsSync(join(projectRoot, nycFileName))) {
+  if(!inner && existsSync(join(projectRoot, nycFileName))){
     nycOptions = readJSONSync(join(projectRoot, nycFileName))
   }else{
     nycOptions = readJSONSync(join(moduleRoot, nycFileName))

@@ -25,32 +25,33 @@ function collect(value, list: any[]) {
 }
 
 class Command {
-
   get chosen(): string | undefined {
     return this._chosen
   }
 
-  private static tabbedConsole(message: string, step: number = 1){
+  private static _tabbedConsole(message: string, step: number = 1) {
     let tab = ''
-    for(let i = step; i > 0; i--){
+    for(let i = step; i > 0; i -= 1){
       tab += '  '
     }
+    // eslint-disable-next-line
     console.log(`${tab}${message}`)
   }
 
-  private _commands: string[]
+  private readonly _commands: string[]
   private _chosen?: string
   private readonly _name: string
 
-  constructor(commands: string[], options: {default?: string, name?: string} = {}) {
+  constructor(commands: string[], options: {default?: string; name?: string} = {}) {
     const {default: df, name = 'Commands'} = options
     this._commands = commands
     this._chosen = df
     this._name = name
   }
 
-  action(command?: string){
+  action(command?: string) {
     if(command && indexOf(this._commands, command) < 0){
+      // eslint-disable-next-line
       console.log(`> "${command}" is not a supporting command please refer to bellow`)
       this.onHelp()
       process.exit(1)
@@ -62,22 +63,21 @@ class Command {
   }
 
   onHelp(): void {
+    // eslint-disable-next-line
     console.log('')
+    // eslint-disable-next-line
     console.log(`${this._name}:`)
     this._commands.forEach((value) => {
-      Command.tabbedConsole(value)
+      Command._tabbedConsole(value)
     })
+    // eslint-disable-next-line
     console.log('')
   }
 }
 
-const command = new Command([
-  'build',
-  'test',
-  'test-watch',
-  'coverage',
-  'reformat',
-], {default: DEFAULT_COMMAND})
+const command = new Command(['build', 'test', 'test-watch', 'coverage', 'reformat'], {
+  default: DEFAULT_COMMAND,
+})
 
 commander
   .arguments('[command]')
@@ -108,18 +108,28 @@ options.sourcePath = __dirname
 options.inner = options.projectRoot === options.moduleRoot
 
 if(command.chosen){
+  // eslint-disable-next-line
   console.log(`> ${command.chosen}`)
 }
 
 if(options.inner){
+  // eslint-disable-next-line
   console.log('> This is running for developing ts-all-in-one project mode')
+  // eslint-disable-next-line
   console.log('options.projectRoot: ', options.projectRoot)
+  // eslint-disable-next-line
   console.log('options.moduleRoot: ', options.moduleRoot)
+  // eslint-disable-next-line
   console.log('options.sourcePath: ', options.sourcePath)
+  // eslint-disable-next-line
   console.log('options.tsConfig: ', options.tsConfig)
+  // eslint-disable-next-line
   console.log('options.buildDir: ', options.buildDir)
+  // eslint-disable-next-line
   console.log('options.include: ', options.include)
+  // eslint-disable-next-line
   console.log('options.requires: ', options.requires)
+  // eslint-disable-next-line
   console.log('options.test: ', options.test)
 }
 
@@ -127,5 +137,6 @@ tasks[camelCase(command.chosen)](options)((error) => {
   if(error){
     throw error
   }
+  // eslint-disable-next-line
   console.log('done')
 })

@@ -9,7 +9,7 @@ export const init = (options: ITsAIOOptions) => {
     throw new Error('init: no moduleRoot || projectRoot')
   }
   // .nycrc .eslintrc.js .prettierrc tsconfig.json tslint.json 파일을 프로젝트 폴더에 복제한다.
-  return async () => {
+  return () => {
     const copyTask: Array<Promise<void>> = []
     FILE_LIST.forEach((value) => {
       const projectFilePath = path.join(projectRoot, value)

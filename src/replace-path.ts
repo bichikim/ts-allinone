@@ -1,4 +1,4 @@
-/* eslint-disable max-depth */
+/* eslint-disable max-depth,null,max-nested-callbacks */
 import fs from 'fs'
 import {forEach} from 'lodash'
 import path from 'path'
