@@ -2,6 +2,22 @@ import shell from 'gulp-shell'
 import {ITsAIOOptions} from '../'
 const DEFAULT_INCLUDE = ['test/**/*.spec.ts']
 
+const nycOptions = {
+  extension: [
+    '.ts',
+    '.tsx',
+  ],
+  include: [
+    'src/**/*',
+  ],
+  exclude: [
+    '**/*.d.ts',
+  ],
+  reporter: [
+    'text-summary' , 'lcov',
+  ],
+}
+
 interface ITestOptions {
   nyc?: boolean
   watch?: boolean
@@ -33,15 +49,14 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
 
   const {requires = []} = options
 
-  console.log(requires)
-
   requires.push('ts-node/register', 'tsconfig-paths/register')
 
   if(nyc){
-    command.push('nyc')
+    command.push('nyc', ...forOptions('require', requires))
   }
 
   command.push('mocha', ...forOptions('require', requires))
+  command.push('--recursive')
   if(watch){
     command.push('--watch', '--watch-extensions ts')
   }
