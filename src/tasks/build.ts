@@ -1,5 +1,5 @@
 import del from 'del'
-import {dest, series, src} from 'gulp'
+import {dest, series, src, symlink} from 'gulp'
 import ts from 'gulp-typescript'
 import {join} from 'path'
 import {ITsAIOOptions} from '../'

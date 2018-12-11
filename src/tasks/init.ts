@@ -1,7 +1,7 @@
 import {copyFile, existsSync} from 'fs-extra'
 import path from 'path'
 import {ITsAIOOptions} from '../'
-const FILE_LIST = ['.eslintrc.js', '.nycrc', '.prettierrc', 'tsconfig.json', 'tslint.json']
+const FILE_LIST = ['.eslintrc.js', '.nycrc', 'tsconfig.json', 'tslint.json']
 
 export const init = (options: ITsAIOOptions) => {
   const {moduleRoot, projectRoot} = options

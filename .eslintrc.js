@@ -1,6 +1,6 @@
 /* eslint-disable max-len,no-magic-numbers */
 module.exports = {
-  plugins: ['html', 'typescript'],
+  plugins: ['html', 'typescript', 'import'],
   env: {
     'commonjs': true,
     'browser': true,
@@ -8,6 +8,11 @@ module.exports = {
     'amd': true,
     'node': true,
     'mocha': true,
+  },
+  settings: {
+    'import/parsers': {
+      'typescript-eslint-parser': [ '.ts', '.tsx' ],
+    }
   },
   overrides: [
     {
@@ -41,14 +46,14 @@ module.exports = {
       }
     }
   ],
-  'extends': ['eslint:recommended', 'plugin:vue/recommended'],
+  'extends': ['eslint:recommended', 'plugin:vue/recommended', 'plugin:import/warnings'],
   parserOptions: {
     parser: 'typescript-eslint-parser',
     sourceType: 'module',
   },
   rules: {
     /**************************************
-     * chai
+     * import
      **************************************/
     /**************************************
      * common javascript options

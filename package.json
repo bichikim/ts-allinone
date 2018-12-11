@@ -1,6 +1,6 @@
 {
   "name": "ts-aio",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "ts test & build & dev all in one package",
   "main": "dist/index.js",
   "bin": {
@@ -33,6 +33,7 @@
     "del": "^3.0.0",
     "eslint": "^5.10.0",
     "eslint-plugin-html": "^5.0.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-typescript": "^0.14.0",
     "eslint-plugin-vue": "^5.0.0",
     "fs-extra": "^7.0.1",

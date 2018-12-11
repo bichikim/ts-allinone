@@ -10,7 +10,6 @@ describe('test it self', () => {
       const fileList = [
         '.eslintrc.js',
         '.nycrc',
-        '.prettierrc',
         'tsconfig.json',
         'tslint.json',
       ]

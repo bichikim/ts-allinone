@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import commander from 'commander'
-import {indexOf, pick} from 'lodash'
-import {camelCase} from 'lodash'
+import {camelCase, findIndex, pick, repeat} from 'lodash'
 import path from 'path'
 import * as tasks from './tasks'
 
@@ -24,25 +23,22 @@ function collect(value, list: any[]) {
   return list
 }
 
+interface ICommandItem {
+  command: string
+  description: string
+}
+
 class Command {
   get chosen(): string | undefined {
     return this._chosen
   }
 
-  private static _tabbedConsole(message: string, step: number = 1) {
-    let tab = ''
-    for(let i = step; i > 0; i -= 1){
-      tab += '  '
-    }
-    // eslint-disable-next-line
-    console.log(`${tab}${message}`)
-  }
-
-  private readonly _commands: string[]
+  private readonly _commands: ICommandItem[]
   private _chosen?: string
   private readonly _name: string
+  private _maxCommandStringLength?: number
 
-  constructor(commands: string[], options: {default?: string; name?: string} = {}) {
+  constructor(commands: ICommandItem[], options: {default?: string; name?: string} = {}) {
     const {default: df, name = 'Commands'} = options
     this._commands = commands
     this._chosen = df
@@ -50,7 +46,7 @@ class Command {
   }
 
   action(command?: string) {
-    if(command && indexOf(this._commands, command) < 0){
+    if(command && findIndex(this._commands, {command}) < 0){
       // eslint-disable-next-line
       console.log(`> "${command}" is not a supporting command please refer to bellow`)
       this.onHelp()
@@ -68,16 +64,48 @@ class Command {
     // eslint-disable-next-line
     console.log(`${this._name}:`)
     this._commands.forEach((value) => {
-      Command._tabbedConsole(value)
+      this._tabbedConsole(value.command, value.description)
     })
     // eslint-disable-next-line
     console.log('')
   }
+
+  private _getMaxCommandLength(): number {
+    if(!this._maxCommandStringLength){
+      let maxLength: number = 0
+      this._commands.forEach((value) => {
+        const {length} = value.command
+        if(maxLength < length){
+          maxLength = length
+        }
+      })
+      this._maxCommandStringLength = maxLength
+    }
+    return this._maxCommandStringLength
+  }
+
+  private _tabbedConsole(message: string, description?: string, step: number = 1) {
+    let tab = repeat(' ', step)
+    const willWrite = `${tab}${message}`
+    let descriptionTab = repeat(' ', this._getMaxCommandLength() - willWrite.length + step)
+    // eslint-disable-next-line
+    console.log(`${willWrite}${descriptionTab}   ${description}`)
+  }
 }
 
-const command = new Command(['build', 'test', 'test-watch', 'coverage', 'reformat'], {
-  default: DEFAULT_COMMAND,
-})
+const command = new Command(
+  [
+    {command: 'build', description: 'build ts to js'},
+    {command: 'test', description: 'test codes'},
+    {command: 'test-watch', description: 'watch testing codes'},
+    {command: 'coverage', description: 'measure test coverage'},
+    {command: 'reformat', description: 'format code style'},
+    {command: 'init', description: 'copy config files for project'},
+  ],
+  {
+    default: DEFAULT_COMMAND,
+  },
+)
 
 commander
   .arguments('[command]')
