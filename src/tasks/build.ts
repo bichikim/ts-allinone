@@ -4,7 +4,7 @@ import ts from 'gulp-typescript'
 import {join} from 'path'
 import {ITsAIOOptions} from '../'
 import tsPathResolve from '../ts-path-resolve'
-const DEFAULT_INCLUDE = ['"src/**/*.ts"']
+const DEFAULT_INCLUDE = ['src/**/*.ts']
 const DEFAULT_BUILD_DIR = 'dist'
 const DEFAULT_TS_CONFIG = 'tsconfig.json'
 
