@@ -1,21 +1,15 @@
+import {existsSync, readJSONSync} from 'fs-extra'
 import shell from 'gulp-shell'
+import {join} from 'path'
 import {ITsAIOOptions} from '../'
 const DEFAULT_INCLUDE = ['test/**/*.spec.ts']
 
-const nycOptions = {
-  extension: [
-    '.ts',
-    '.tsx',
-  ],
-  include: [
-    'src/**/*',
-  ],
-  exclude: [
-    '**/*.d.ts',
-  ],
-  reporter: [
-    'text-summary' , 'lcov',
-  ],
+const REQUIRES: string[] = ['tsconfig-paths/register', 'ts-node/register']
+
+const nycFileName = '.nycrc'
+
+const mochaOptions = {
+  require: REQUIRES,
 }
 
 interface ITestOptions {
@@ -25,16 +19,19 @@ interface ITestOptions {
 
 export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => {
   const {nyc = false, watch = false} = testOptions
-  const {include = DEFAULT_INCLUDE, moduleRoot} = options
+  const {include = [], moduleRoot, test = [], requires = [], inner, projectRoot} = options
 
-  // at less it has the DEFAULT_INCLUDE
-  if(include.length < 1){
-    include.push(...DEFAULT_INCLUDE)
-  }
-
-  const forOptions = (deco: string, list: string[] | string): string[] => {
-    const create = (value: string): string => `--${deco} "${value}"`
-    if(typeof list === 'string'){
+  const forOptions = (deco: string, list: string[] | string | boolean): string[] => {
+    const create = (value: string | boolean): string => {
+      if(typeof value === 'boolean'){
+        if(value){
+          return `--${deco}`
+        }
+        return ''
+      }
+      return `--${deco} "${value}"`
+    }
+    if(typeof list === 'string' || typeof list === 'boolean'){
       return [create(list)]
     }
     return list.map((value: string) => {
@@ -47,22 +44,50 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
     throw new Error('test: no moduleRoot')
   }
 
-  const {requires = []} = options
+  if(!projectRoot){
+    throw new Error('test: no projectRoot')
+  }
 
-  requires.push('ts-node/register', 'tsconfig-paths/register')
+  if(requires.length < 1){
+    requires.push(...REQUIRES)
+  }
+
+  if(test.length < 1) {
+    test.push(...DEFAULT_INCLUDE)
+  }
+
+  let nycOptions
+  if(!inner && existsSync(join(projectRoot, nycFileName))) {
+    nycOptions = readJSONSync(join(projectRoot, nycFileName))
+  }else{
+    nycOptions = readJSONSync(join(moduleRoot, nycFileName))
+  }
+
+  if(!nycOptions.require){
+    nycOptions.require = requires
+  }
+
+  if(!nycOptions.include){
+    nycOptions.include = include
+  }
+
+  mochaOptions.require.push(...requires)
 
   if(nyc){
-    command.push('nyc', ...forOptions('require', requires))
+    command.push('nyc')
+    Object.keys(nycOptions).forEach((value) => {
+      command.push(...forOptions(value, nycOptions[value]))
+    })
   }
 
   command.push('mocha')
-  command.push(...forOptions('require', requires))
-  command.push('--full-trace')
-  command.push('--bail')
+  Object.keys(mochaOptions).forEach((value) => {
+    command.push(...forOptions(value, mochaOptions[value]))
+  })
   if(watch){
     command.push('--watch', '--watch-extensions ts')
   }
-  command.push(...include)
+  command.push(...test)
   return shell.task(command.join(' '))
 }
 

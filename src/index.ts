@@ -4,6 +4,7 @@ import {indexOf, pick} from 'lodash'
 import {camelCase} from 'lodash'
 import path from 'path'
 import * as tasks from './tasks'
+
 const DEFAULT_COMMAND = 'build'
 
 export interface ITsAIOOptions {
@@ -11,6 +12,7 @@ export interface ITsAIOOptions {
   buildDir?: string
   requires?: string[]
   include?: string[]
+  test?: string[]
   inner?: boolean
   moduleRoot?: string
   projectRoot?: string
@@ -85,6 +87,7 @@ commander
   .option('-c, --ts-config [dir]', 'set a project directory', 'tsconfig.json')
   .option('-d, --build-dir [dir]', 'set a directory for built result files', 'dist')
   .option('-i, --include [regex]', 'source directories (collect able)', collect, [])
+  .option('-t, --test [regex]', 'test directories(collect able, test only)', collect, [])
   .option('-r, --requires [file path]', 'require files (collect able)', collect, [])
   .on('--help', () => {
     command.onHelp()
@@ -96,6 +99,7 @@ const options: Partial<ITsAIOOptions> = pick(commander, [
   'buildDir',
   'include',
   'requires',
+  'test',
 ])
 
 options.projectRoot = process.cwd()
@@ -116,6 +120,7 @@ if(options.inner){
   console.log('options.buildDir: ', options.buildDir)
   console.log('options.include: ', options.include)
   console.log('options.requires: ', options.requires)
+  console.log('options.test: ', options.test)
 }
 
 tasks[camelCase(command.chosen)](options)((error) => {
