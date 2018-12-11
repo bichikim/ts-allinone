@@ -100,7 +100,7 @@ const command = new Command(
     {command: 'test-watch', description: 'watch testing codes'},
     {command: 'coverage', description: 'measure test coverage'},
     {command: 'reformat', description: 'format code style'},
-    {command: 'init', description: 'copy config files for project'},
+    {command: 'init', description: 'copy config files for your project'},
   ],
   {
     default: DEFAULT_COMMAND,

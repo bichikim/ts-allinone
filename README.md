@@ -25,7 +25,7 @@ Commands:
  test-watch   watch testing codes
  coverage     measure test coverage
  reformat     format code style
- init         copy config files for project
+ init         copy config files for your project
 
 ```
 
