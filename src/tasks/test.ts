@@ -2,7 +2,7 @@ import {existsSync, readJSONSync} from 'fs-extra'
 import shell from 'gulp-shell'
 import {join} from 'path'
 import {ITsAIOOptions} from '../'
-const DEFAULT_INCLUDE = ['test/**/*.spec.ts']
+const DEFAULT_TEST = ['"./test/**/*.spec.ts"']
 
 const REQUIRES: string[] = ['tsconfig-paths/register', 'ts-node/register']
 
@@ -53,7 +53,7 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
   }
 
   if(test.length < 1) {
-    test.push(...DEFAULT_INCLUDE)
+    test.push(...DEFAULT_TEST)
   }
 
   let nycOptions
