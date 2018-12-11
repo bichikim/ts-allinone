@@ -55,8 +55,10 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
     command.push('nyc', ...forOptions('require', requires))
   }
 
-  command.push('mocha', ...forOptions('require', requires))
-  command.push('--recursive')
+  command.push('mocha')
+  command.push(...forOptions('require', requires))
+  command.push('--full-trace')
+  command.push('--bail')
   if(watch){
     command.push('--watch', '--watch-extensions ts')
   }

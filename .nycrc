@@ -4,10 +4,11 @@
     ".tsx"
   ],
   "include": [
-    "src/**/*"
+    "src/**/*.ts"
   ],
   "exclude": [
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "**/__*.ts"
   ],
   "reporter": [
     "text-summary" , "lcov"
