@@ -42,6 +42,7 @@
     "radix": true,
     "only-arrow-functions": [true, "allow-named-functions"],
     "no-empty-interface": false,
+    "no-null-keyword": true,
     "no-string-throw": true,
     "semicolon": [true, "never"],
     "triple-equals": [true, "allow-null-check"],
