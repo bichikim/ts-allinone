@@ -73,6 +73,15 @@ module.exports = {
     'block-spacing': ['error', 'never'],
     'camelcase': ['error', {'properties': 'always'}],
     'comma-dangle': ['error', 'always-multiline'],
+    'capitalized-comments': [
+      'error',
+      'always',
+      {
+        'line': {
+          'ignorePattern': '^(\w)*',
+        },
+      }
+    ],
     'comma-style': ['error', 'last'],
     'complexity': ['error', 20],
     'consistent-this': ['error', 'self'],
