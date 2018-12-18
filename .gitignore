@@ -1,20 +1,23 @@
-## package
+# package
 /node_modules
 /bower_components
 
-## bundle
+# env
+.npmrc
+
+# bundle
 /dist
 /public
 
-##allure-report and test_report
+# allure-report and test_report
 /allure-results
 /test_report
 
-## key
+# key
 /.key
 !/.key/README.md
 
-## log
+# log
 /log/*
 /npm-debug.log*
 /yarn-debug.log*
@@ -24,24 +27,24 @@
 /coverage
 
 
-## environment
+# environment
 /yarn.lock
 /package-lock.json
 /.env
 /.env.js
 
-## editor
+# editor
 /.idea
 *.suo
 *.ntvs*
 *.njsproj
 
-## Elastic Beanstalk
+# Elastic Beanstalk
 /.elasticbeanstalk/*
 !/.elasticbeanstalk/*.cfg.yml
 !/.elasticbeanstalk/*.global.yml
 
-##temporary files
+# temporary files
 /.nyc_output
 /db/~db.json
 /.jest
