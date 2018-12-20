@@ -9,7 +9,7 @@
 ## How to use
 
 ```
-Usage: src [options] [command]
+Usage: ts-aio [options] [command]
 
 Options:
   -c, --ts-config [dir]       set a project directory (default: "tsconfig.json")
