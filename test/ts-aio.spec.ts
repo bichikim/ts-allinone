@@ -1,6 +1,7 @@
 import {expect} from 'chai'
 import {ensureDir, existsSync, removeSync} from 'fs-extra'
 import path from 'path'
+import {compile} from '~/tasks/build'
 import {init} from '~/tasks/init'
 
 describe('test it self', () => {
@@ -27,6 +28,24 @@ describe('test it self', () => {
         fileList.forEach((value) => {
           expect(existsSync(path.join(options.projectRoot, value))).to.equal(true)
         })
+      })
+    })
+  })
+  describe('build', function build() {
+    this.timeout(3000)
+    const buildDir = 'test/dist/'
+    afterEach(() => {
+      removeSync(buildDir)
+    })
+    it('should build', (done) => {
+      const result = compile({
+        tsConfig: 'tsconfig.json',
+        buildDir,
+        include: ['test/src/**/*.ts'],
+        projectRoot: process.cwd(),
+      })(() => {
+        expect('').to.equal('')
+        done()
       })
     })
   })

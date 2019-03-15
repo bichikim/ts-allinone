@@ -1,0 +1,42 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+
+    // 언어 환경
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": ["es2015", "esnext"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*" : ["src/*"],
+      "~/*": ["src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./types"],
+
+    // 빌드 환경
+    "module": "commonjs",
+    "target": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": false,
+
+    // 데코레이션
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    //lint
+    "strict": true,
+    "noImplicitThis": true,
+    "strictPropertyInitialization": false,
+    "alwaysStrict": true,
+    "noEmitHelpers": false,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noImplicitAny": false
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+  ]
+}
