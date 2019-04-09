@@ -16,6 +16,7 @@ export interface ITsAIOOptions {
   moduleRoot?: string
   projectRoot?: string
   sourcePath?: string
+  file?: string[]
 }
 
 function collect(value, list: any[]) {
@@ -117,6 +118,7 @@ commander
   .option('-i, --include [regex]', 'source directories (collect able)', collect, [])
   .option('-t, --test [regex]', 'test directories(collect able, test only)', collect, [])
   .option('-r, --requires [file path]', 'require files (collect able)', collect, [])
+  .option('-f, --file [file path]', 'run files (collect able)', collect, [])
   .on('--help', () => {
     command.onHelp()
   })
@@ -127,6 +129,7 @@ const options: Partial<ITsAIOOptions> = pick(commander, [
   'buildDir',
   'include',
   'requires',
+  'file',
   'test',
 ])
 
@@ -159,6 +162,8 @@ if(options.inner){
   console.log('options.requires: ', options.requires)
   // eslint-disable-next-line
   console.log('options.test: ', options.test)
+  // eslint-disable-next-line
+  console.log('options.file: ', options.file)
 }
 
 tasks[camelCase(command.chosen)](options)((error) => {

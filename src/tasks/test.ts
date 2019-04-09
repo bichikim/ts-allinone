@@ -8,7 +8,7 @@ const REQUIRES: string[] = ['tsconfig-paths/register', 'ts-node/register']
 
 const nycFileName = '.nycrc'
 
-const mochaOptions = {
+const mochaOptions: any = {
   require: REQUIRES,
 }
 
@@ -19,7 +19,15 @@ interface ITestOptions {
 
 export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => {
   const {nyc = false, watch = false} = testOptions
-  const {include = [], moduleRoot, test = [], requires = [], inner, projectRoot} = options
+  const {
+    include = [],
+    moduleRoot,
+    test = [],
+    requires = [],
+    inner,
+    projectRoot,
+    file = [],
+  } = options
 
   const forOptions = (deco: string, list: string[] | string | boolean): string[] => {
     const create = (value: string | boolean): string => {
@@ -72,6 +80,8 @@ export const test = (options: ITsAIOOptions, testOptions: ITestOptions = {}) => 
   }
 
   mochaOptions.require.push(...requires)
+
+  mochaOptions.file = file
 
   if(nyc){
     command.push('nyc')

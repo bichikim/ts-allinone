@@ -1,0 +1,3 @@
+before(() => {
+  console.log('passed')
+})
