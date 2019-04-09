@@ -1,6 +1,6 @@
 /* eslint-disable max-len,no-magic-numbers */
 module.exports = {
-  plugins: ['html', 'typescript', 'import'],
+  plugins: ['html', '@typescript-eslint', 'import'],
   env: {
     'commonjs': true,
     'browser': true,
@@ -11,15 +11,15 @@ module.exports = {
   },
   settings: {
     'import/parsers': {
-      'typescript-eslint-parser': [ '.ts', '.tsx' ],
-    }
+      '@typescript-eslint/parser': [ '.ts', '.tsx' ],
+    },
   },
   overrides: [
     {
       files: ['*.js'],
       rules: {
         'indent': 'off',
-      }
+      },
     },
     {
       files: ['*.ts'],
@@ -30,7 +30,7 @@ module.exports = {
         'no-undefined': 'off',
         'no-unused-vars': 'off',
         'no-dupe-class-members': 'off',
-      }
+      },
     },
     {
       files: [
@@ -43,12 +43,12 @@ module.exports = {
         'no-magic-numbers': 'off',
         'max-nested-callbacks': 'off',
         'no-undef': 'off',
-      }
-    }
+      },
+    },
   ],
   'extends': ['eslint:recommended', 'plugin:vue/recommended', 'plugin:import/warnings'],
   parserOptions: {
-    parser: 'typescript-eslint-parser',
+    parser: '@typescript-eslint/parser',
     sourceType: 'module',
   },
   rules: {
@@ -80,7 +80,7 @@ module.exports = {
         'line': {
           'ignorePattern': '^(\w)*',
         },
-      }
+      },
     ],
     'comma-style': ['error', 'last'],
     'complexity': ['error', 20],
@@ -90,7 +90,7 @@ module.exports = {
     'getter-return': 'error',
     'global-require': 'error',
     'guard-for-in': 'error',
-    'indent': ['error', 2, { "SwitchCase": 1 }],
+    'indent': ['error', 2, { 'SwitchCase': 1 }],
     'keyword-spacing': ['error', {
       'before': false,
       'after': false,
@@ -104,7 +104,7 @@ module.exports = {
         'export': {after: true},
         'return': {before: true, after: true},
         'this': {before: true, after: true},
-        'case':{after: true},
+        'case': {after: true},
         'extends': {before: true},
         'implements': {before: true},
       },
@@ -179,8 +179,12 @@ module.exports = {
     'require-await': 'error',
     'semi': ['error', 'never'],
     'sort-keys': 'off',
-    'space-before-blocks': ['error', {'functions': 'always', 'keywords': 'never', 'classes': 'always'}],
-    'space-before-function-paren': ['error', {'anonymous': 'never', 'named': 'never', 'asyncArrow': 'always'}],
+    'space-before-blocks': [
+      'error', {'functions': 'always', 'keywords': 'never', 'classes': 'always'},
+      ],
+    'space-before-function-paren': [
+      'error', {'anonymous': 'never', 'named': 'never', 'asyncArrow': 'always'},
+      ],
     'vars-on-top': 'error',
 
     /*************************************
@@ -221,5 +225,5 @@ module.exports = {
           },
         },
       }],
-  }
-};
+  },
+}

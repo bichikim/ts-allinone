@@ -2,6 +2,7 @@
   "extends": [
     "tslint:recommended"
   ],
+  "jsRules": true,
   "rules": {
     "class-name": true,
     "curly": true,
